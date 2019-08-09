@@ -61,7 +61,7 @@ while True:
 	bus.write_byte(address, input_addr)
 
 	aread = pd.DataFrame({'value': [bus.read_byte(address)], 'time': [tim]})
-	engine = create_engine('mysql://agdatalab_sensor:snu_ais1234@agdatalab-sensor.cr93cx0zvhvo.ap-northeast-2.rds.amazonaws.com/soil_moisture?charset=utf8', encoding = 'utf-8')
+	engine = create_engine('mysql://agdatalab_sensor:"#password"@agdatalab-sensor.cr93cx0zvhvo.ap-northeast-2.rds.amazonaws.com/soil_moisture?charset=utf8', encoding = 'utf-8')
 	aread.to_sql(name = 'soil_moisture_data', con=engine,  if_exists = 'append', index = False)
 
 	time.sleep(900)
