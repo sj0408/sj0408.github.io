@@ -1,6 +1,6 @@
 ﻿---
 layout: post
-title: "Jay's first article to Ain"
+title: "Jay's first article"
 tags: [test]
 comments: true
 ---
