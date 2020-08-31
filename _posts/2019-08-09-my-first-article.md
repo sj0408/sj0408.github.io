@@ -9,21 +9,9 @@ This is the first article of mardi's blog.
 
 ---
 
-## 1. 사랑 
+## 1. 변경 
 
-# 사랑해
-
-# I love you
-
-## Ich liebe dich
-
-### Wo ai ni
-
-#### Je t'aime
-
-##### Te amo
-
-###### Ti amo
+# change
 
 
 ## 2. Code Snippets
