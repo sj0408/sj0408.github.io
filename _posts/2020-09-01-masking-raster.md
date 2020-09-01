@@ -46,6 +46,7 @@ comments: true
 
 - rasterio로 raster file을 읽고 shape file의 좌표정보를 이용해 분석에 필요한 필지를 마스킹한다.
 
+<br>
 <font size="5"> 1. Import </font>
 
 ```python
@@ -122,6 +123,7 @@ coords
   [273545.55808547314, 476595.116112523],.......]]},.......]
 ```
 
+<br>
 - 마스킹된 raster 파일의 meta data에 입력할 좌표계 정보를 proj4 형태로 획득
 - 좌표계 표현 방법인 epsg와 proj4에 대한 설명은 [여기](https://www.earthdatascience.org/courses/use-data-open-source-python/intro-vector-data-python/spatial-data-vector-shapefiles/epsg-proj4-coordinate-reference-system-formats-python/)에 잘 설명돼 있으며 대한민국 epsg코드 및 좌표계에 대한 정보는 [이곳](http://www.gisdeveloper.co.kr/?p=8942)을 참고하자
 
