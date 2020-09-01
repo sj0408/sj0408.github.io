@@ -50,7 +50,7 @@ comments: True
 <font size="5"> 1. Import </font>
 
 ```python
-#  IMPORT
+# IMPORT
 import rasterio
 from rasterio.mask import mask
 
@@ -156,16 +156,17 @@ for row in geo.iterrows(): # iter rows of geo
                              )
 
             # create file if not exsist
-            fileName = f"D://노지항공영상//괴산//{date}_{time}//mask_shp_{img_type}_soybean"
-            if not os.path.exists(fileName):
+            outPath = "<OUTPUT PATH>"
+            
+            if not os.path.exists(outPath):
                 try:
-                    os.makedirs(fileName)
+                    os.makedirs(outPath)
                 except OSError as exc: # Guard against race condition
                     if exc.errno != errno.EEXIST:
                         raise
 
             # output raster
-            with rasterio.open(fileName + f"//{img_type}_shp_mask_{row[1]['FMAP_INNB']}.tif", "w", **out_meta) as dest:
+            with rasterio.open(outPath + "<OUTPUT FILENAME>.tif", "w", **out_meta) as dest:
                 dest.write(out_img)
 
         except ValueError:
@@ -246,7 +247,7 @@ def maskTifShape(date, time, img_type, soybean):
                             raise
 
                 # output raster
-                with rasterio.open(outPath + <OUTPUT FILENAME>.tif", "w", **out_meta) as dest:
+                with rasterio.open(outPath + "<OUTPUT FILENAME>.tif", "w", **out_meta) as dest:
                     dest.write(out_img)
 
             except ValueError:
@@ -296,7 +297,7 @@ def maskTifShape_soybean(date, time, img_type, soybean):
                     raise
                             
         # output raster
-        with rasterio.open(outPath + <OUTPUT FILENAME>.tif", "w", **out_meta) as dest:
+        with rasterio.open(outPath + "<OUTPUT FILENAME>.tif", "w", **out_meta) as dest:
                     dest.write(out_img)         
 
     except ValueError:
