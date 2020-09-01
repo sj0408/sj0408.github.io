@@ -1,4 +1,3 @@
-# Raster - read, edit, masking(shp file)
 ---
 layout: post
 title: "Shape 파일을 이용한 Raster 마스킹"
@@ -6,7 +5,6 @@ tags: [Image, Raster, Masking, Shape File]
 comments: true
 ---
 본 글은 [Earth Lab](https://www.earthdatascience.org/)을 참조하여 작성하였습니다.
-
 ---
 ## Raster
 ---
@@ -14,20 +12,16 @@ comments: true
 
 <font size="5"> 1. What is Raster </font>
 <br>
-<br>
 - Raster data는 grid 상에서 같은 크기의 cell들에 저장된 값들로 지도 상에 하나의 픽셀로 표현되며 각 픽셀은 공간정보를 포함한다.  
 <br>
-
 
 <img src="https://www.earthdatascience.org/images/earth-analytics/raster-data/raster-concept.png" width="400">
 
 <font size="5"> 2. Raster in Python </font>
 <br>
-<br>
 - Python에서 Raster data를 다룰 수 있는 오픈 소스 패키지는 크게 [Python GDAL](https://pypi.org/project/GDAL/)과 [Rasterio](https://pypi.org/project/rasterio/)가 있다.
 - **GDAL**은 C++을 베이스로 만들어져 풍부한 기능을 제공하지만 코드가 다소 복잡한 경향이 있다.
 - **Rasterio**는 Pythonic한 인터페이스를 가지고 있으며 코드가 간단하고 가독성이 좋다.
-<br>
 <br>
 <br>
 
@@ -54,8 +48,6 @@ comments: true
 ---
 ## mask raster with shape file
 ---
-<br>
-
 - rasterio로 raster file을 읽고 shape file의 좌표정보를 이용해 분석에 필요한 필지를 마스킹한다.
 <br>
 <br>
@@ -75,6 +67,7 @@ import json
 <br>
 <br>
 <font size="5"> 2. shape file과 raster file을 읽고 두 파일의 좌표계 정보를 일치 </font>
+<br>
 
 ```python
 # READ SHAPE FILE
@@ -92,7 +85,6 @@ geo = geo.to_crs(crs=data.crs.data)
 <br>
 <font size="5"> 3. 마스킹 좌표 설정 / 마스킹된 raster의 meta data 생성 </font>
 <br>
-<br>  
 
 - 마스킹을 위해서는 마스킹될 필지의 좌표정보가 필요하다. geopandas로 읽어들인 shape 파일을 json 형태로 변환, 'features' dict 내의 'geometry' dict에 위치한 좌표 정보를 list 로 저장한다.
 
@@ -153,7 +145,6 @@ epsg2proj =  CRS.from_epsg(epsg_code).to_proj4()
 <br>
 <font size="5"> 4. 마스킹 </font>
 <br>
-<br>  
 
 - shape 파일을 pandas dataframe으로 변환한 변수 <span style='background :gray' > geo </span>의 행은 각 필지에 대한 정보를 가지고 있으며 <span style='background :gray' > FMAP_INNB </span>  은 각 필지의 고유한 코드이다.
 - 대상 필지 코드 리스트 <span style='background :gray' > soybean </span>에 포함된 행에 대해서만 마스킹을 수행한다.
@@ -193,16 +184,16 @@ for row in geo.iterrows(): # iter rows of geo
 ```
 <br>
 <br>
-<img src="./image/masked_1.tif" width="400">
-<img src="./image/masked_2.tif" width="400">
-<img src="./image/masked_3.tif" width="400">
+<img src="/image/masked_1.tif" width="400">
+<img src="/image/masked_2.tif" width="400">
+<img src="/image/masked_3.tif" width="400">
 <br>
 <br>
 
 - 각각의 필지가 아닌 다수 혹은 전체 필지를 마스킹하고 싶다면 for문을 사용하지 않고 <span style='background :gray' > coords </span>에 마스킹하려는 모든 필지에 대한 좌표 정보를 추가하면 된다.
 - 이때 <span style='background :gray' > mask </span>  모듈의 crop 파라미터를 True로 설정할 경우 선택한 필지를 나타낼 수 있는 최소한의 크기로 raster를 잘라내고 False로 설정할 경우 원래 raster 크기 그대로 마스크된 raster를 출력한다. 
 
-```Python
+```python
 # get coordinates of target areas only
 coords = [item['geometry'] for item in json.loads(geo.to_json())['features'] if item['properties']['FMAP_INNB'] in soybean]
 epsg_code = int(data.crs.data['init'][5:])

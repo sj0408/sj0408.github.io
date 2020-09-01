@@ -1,7 +1,7 @@
 ﻿---
 layout: post
-title: "Jay's first article"
-tags: [test]
+title: "Shape 파일을 이용한 TIFF 이미지 마스킹"
+tags: [Image, TIFF, Masking, Shape File]
 comments: true
 ---
 
