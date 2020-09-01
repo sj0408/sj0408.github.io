@@ -103,7 +103,7 @@ json.loads(geo.to_json())
   'geometry': {'type': 'Polygon',
    'coordinates': [[[272646.86728058296, 474287.4838322025],
      [272647.0151503971, 474288.9742049827],........]]}},........]
-     ```
+```
       
 ```python
 # get coordinates of all areas
@@ -170,9 +170,9 @@ for row in geo.iterrows(): # iter rows of geo
             pass
 ```
 <br>
-<img src="/images/agriculture.png" width="400">
-<img src="/images/masked_2.tif" width="400">
-<img src="/images/masked_3.tif" width="400">
+<img src="/images/masked_1.png" width="400">
+<img src="/images/masked_2.png" width="400">
+<img src="/images/masked_3.png" width="400">
 <br>
 
 - 각각의 필지가 아닌 다수 혹은 전체 필지를 마스킹하고 싶다면 for문을 사용하지 않고 <span style='background :gray' > coords </span>에 마스킹하려는 모든 필지에 대한 좌표 정보를 추가하면 된다.
