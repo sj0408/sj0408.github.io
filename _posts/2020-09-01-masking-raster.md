@@ -2,7 +2,7 @@
 layout: post
 title: "Shape 파일을 이용한 Raster 마스킹"
 tags: [Image, Raster, Masking, Shape File]
-comments: true
+comments: True
 ---
 
 본 글은 [Earth Lab](https://www.earthdatascience.org/)을 참조하여 작성하였습니다.
