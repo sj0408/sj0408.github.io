@@ -5,6 +5,7 @@ tags: [Folium, Image, Raster, Reprojection, Mapbox]
 comments: true
 ---
 # Folium
+<br>
 
 1. Folium이란
     - Folium은 leaflet.js를 기반으로 만들어진 Python 라이브러리로 데이터를 시각화하여 leaflet 지도 위에 표출하는 것을 도와준다.
@@ -21,6 +22,7 @@ comments: true
 ```python
 import folium
 ```
+<br>
 
 - location: [위도, 경도]
 - zoom_start: 기본 확대값(높을수록 확대), int
@@ -29,21 +31,16 @@ import folium
 folium_map = folium.Map(location=[37.392075,126.958980], zoom_start=15)
 folium_map
 ```
+<iframe src="/images/folium_map.html" width="700" height="500" frameborder="0" style="border:0" allowfullscreen></iframe>
 <br>
 
-<iframe src="/images/folium_map.html" width="700" height="500" frameborder="0" style="border:0" allowfullscreen></iframe>
-
 - tiles: 다양한 built-in tileset을 활용할 수 있지만 그닥...
-
-
 ```python
 folium_stamen = folium.Map(location=[37.392075,126.958980], zoom_start=15, tiles='Stamen Toner')
 folium_stamen
 ```
-<br>
-
-
 <iframe src="/images/folium_stamen.html" width="700" height="500" frameborder="0" style="border:0" allowfullscreen></iframe>
+<br>
 
 
 2. Folium 위에 Raster 맴핑하기
