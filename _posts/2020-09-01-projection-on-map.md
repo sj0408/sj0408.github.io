@@ -31,7 +31,7 @@ folium_map
 ```
 <br>
 
-<iframe src="/images/folium_map.html" width="700" frameborder="0" style="border:0" allowfullscreen></iframe>
+<iframe src="/images/folium_map.html" width="700" height="500" frameborder="0" style="border:0" allowfullscreen></iframe>
 
 - tiles: 다양한 built-in tileset을 활용할 수 있지만 그닥...
 
@@ -43,7 +43,7 @@ folium_stamen
 <br>
 
 
-<iframe src="/images/folium_stamen.html" width="700" frameborder="0" style="border:0" allowfullscreen></iframe>
+<iframe src="/images/folium_stamen.html" width="700" height="500" frameborder="0" style="border:0" allowfullscreen></iframe>
 
 
 2. Folium 위에 Raster 맴핑하기
