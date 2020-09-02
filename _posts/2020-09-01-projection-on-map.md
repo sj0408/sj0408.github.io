@@ -59,8 +59,8 @@ folium_stamen
     - Reprojection
         - [이 분의 말](https://stackoverflow.com/questions/57376512/which-projection-is-mapbox-using)에 따르면 mapbox의 맵핑 라이브러리는 EPSG:3857을 사용하지만 마커나 GeoJSON layer와 같은 정보를 지도에 올리기 위해서는 EPSG:4326 좌표계를 사용해야 된다고 함.
     ```python
-    input_path = <input_path>
-    out_path = <out_path>
+    input_path = <input_path> # 맵핑하고싶은 raster data 경로
+    out_path = <out_path> # reprojection된 raster data 저장 경로
     # Destination Coordinate Reference System - mapbox에서 사용하는 좌표계: epsg:4326
     dst_crs = 'epsg:4326' 
     ```
@@ -106,9 +106,11 @@ folium_stamen
         - reprojection 된 raster를 읽어 bound(좌상, 우하 좌표)와 raster 벡터를 얻는다. 이때 raster 벡터의 형상을  (bands, rows, columns)에서 (rows, columns, bands)로 변환한다.
         ```python
         with rasterio.open(out_path) as src:
+            # raster의 사각형 좌상, 우하 좌표 정보
             boundary = src.bounds
             mask_bounds = [[boundary[1],boundary[0]],[boundary[3],boundary[2]]]
-
+            
+            # raster reshape
             img = src.read()
             img_n = np.zeros((img.shape[1],img.shape[2],img.shape[0]))
             for i in range(4):
@@ -119,9 +121,13 @@ folium_stamen
         - 마지막으로 folium map에 custom mapbox를 이용해 raster layer를 추가하는 과정을 거친다. custom mapbox를 쓰기 위해서는 mapbox api token이 필요하며 tiles 파라미터에 token이 포함된 tile url을 넣어주어야함. token 생성 방법은 [이곳](https://docs.mapbox.com/help/tutorials/get-started-tokens-api/)을 참고.
         
         ```python
+        # set tile url for custumized mapbox
         token = 'pk.eyJ1IjoiamF5LWsiLCJhIjoiY2tkNWh4bmI4MDBnNDJ4bWI5ZmNhcDV4ayJ9.VzGXhHv2Bvi3aaL2ajBUBw'
         tileurl = 'https://api.mapbox.com/v4/mapbox.satellite/{z}/{x}/{y}@2x.png?access_token=' + str(token)
-
+        
+        # set folium map
         m = folium.Map(location=[36.8913652,127.8232119], zoom_start=15, tiles=tileurl, attr='Mapbox')
+
+        # add raster layer
         m.add_child(folium.raster_layers.ImageOverlay(img, opacity=1, bounds=mask_bounds))        
         ```
