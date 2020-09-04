@@ -6,6 +6,9 @@ comments: true
 ---
 gdal을 이용해 zoom별 tile을 생성해서 지도에 올려보자!
 ---
+<br>  
+<br>  
+
 [지난 포스트](https://sj0408.github.io/projection-on-map/)에서는 folium 라이브러리를 이용해 reprojection한 raster 파일을 지도 위에 표출해보았다. 하지만 folium에서는 raster의 bound를 설정하기 때문에 polygon 형태로 마스킹된 필지의 경우 필지 이외의 부분들이 검은색으로 나타나는 문제가 생겼다. 배경을 투명하게 만들기 위한 시도도 해봤지만 실패... 그래서 대부분의 지도 서비스에서 하듯이 raster 파일을 zoom별 tile로 잘라 지도 상에 표출해보기로 하였다.
 <br>  
 
@@ -35,34 +38,35 @@ gdal을 이용해 zoom별 tile을 생성해서 지도에 올려보자!
     zoomMax = 21  # set max zoom
     options = {'zoom': (14, zoomMax), 'resume': True}  # zoom -> 0~22 
     gdal2tiles.generate_tiles(in_path, out_path, **options)
-    ```
-
+    ```  
 <br>  
-    위 코드를 실행하면 다음과 같은 구조로 tile이 생성된다.
-    
-    ```python
-    output path
-        |__ 14
-            |__ x
-                |__ y
-                    |__ xxx.tif
-                    |__ xxx.tif
-        |__ 15
-        |__ 16
-        .
-        .
-        |__ 21
-        |__ googlemap.html
-        |__ leaflet.html
-        |__ openlayers.html
-    ```
+
+        위 코드를 실행하면 다음과 같은 구조로 tile이 생성된다.
+        
+        ```python
+        output path
+            |__ 14
+                |__ x
+                    |__ y
+                        |__ xxx.tif
+                        |__ xxx.tif
+            |__ 15
+            |__ 16
+            .
+            .
+            |__ 21
+            |__ googlemap.html
+            |__ leaflet.html
+            |__ openlayers.html
+        ```
+<br>  
 <br>  
 
 이제 leaflet이나 openlayer html 파일을 실행하면...! 지도 위에 raster file이 잘 올라가 있는 것을 확인할 수 있다. 참고로 googlemap은 별도로 발급 받은 api key를 option으로 전달해야 사용 가능하다.
 <br>  
 
 [Openlayers html 실행 화면]
-<iframe src="https://github.com/sj0408/sj0408.github.io/tree/master/images/openlayers/openlayers.html" width="700" height="500" frameborder="0" style="border:0" allowfullscreen></iframe>
+<iframe src="/images/openlayers/leaflet.html" width="700" height="500" frameborder="0" style="border:0" allowfullscreen></iframe>
 test용으로 zoom은 14-17까지만 tile을 만들었다. zoom은 최대 22까지 가능하지만 많은 이미지를 필요로하고 zoom 단계별 이미지들이 나타내는 범위는 다르지만 크기는 256X256으로 고정돼(조정 가능) 있기 때문에 용량을 꽤 많이 차지하게 된다...(정확히 말하자면 zoom을 한 단계 올릴 때마다 용량은 약 4배 증가)
 <br>  
 <br>  
@@ -71,7 +75,7 @@ test용으로 zoom은 14-17까지만 tile을 만들었다. zoom은 최대 22까�
 위에서 언급했듯이 tile 좌표계에는 Google형식과 TMS형식이 있는데 gdal2tiles의 default는 Google형식에 맞춰져 있다.따라서 Google 형식을 따르도록 돼 있는 Google Map에서는(혹시 Google Map API를 사용하게 된다면) tile을 확인할 수 없다. tile을 표출하기 위해서는 y값에 해당하는 파일명을 Google형식에 맞춰 변환해야한다. 다행히도 변환 코드는 [Maptiler](https://www.maptiler.com/google-maps-coordinates-tile-bounds-projection/)의 <span style='background :yellow' > GlobalMercator </span> 모듈에 있다. 
 
     ```python
-    def GoogleTile(self, tx, ty, zoom):
+    def GoogleTile(tx, ty, zoom):
             "Converts TMS tile coordinates to Google Tile coordinates"
             # coordinate origin is moved from bottom-left to top-left corner of the extent
             return tx, (2**zoom - 1) - ty
