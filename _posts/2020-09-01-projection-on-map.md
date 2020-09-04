@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Folium으로 Raster 파일 지도에 올리기"
+title: "Raster 파일 지도에 올리기(1) - Folium"
 tags: [Folium, Image, Raster, Reprojection, Mapbox]
 comments: true
 ---
