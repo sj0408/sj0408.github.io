@@ -20,44 +20,47 @@ gdal을 이용해 zoom별 tile을 생성해서 지도에 올려보자!
 <br>  
     - 설명을 읽으면 이래저래 복잡해 보이지만 놀랍게도 gdal 라이브러리를 사용하면 raster를 넣기만 하면 알아서 다 해주는 기적을 경험할 수 있다. gdal에 관해서는 [shape 파일 마스킹 포스트](https://sj0408.github.io/masking-raster/)에서 짧게 언급한 적이 있기 때문에 설명은 생략하겠다. 
     - gdal2tiles[[gdal documenation](https://gdal.org/programs/gdal2tiles.html)], [[PYPI gdal documentation](https://pypi.org/project/gdal2tiles/)] 모듈을 이용하면 몇 줄의 코드로 raster file을 tile로 자를 수 있을뿐더러 동시에 GoogleMap, Leaflet, Openlayer 세 가지 지도 API 기반의 html 파일을 자동으로 생성해주어 매우 유용하다. 
-    ```python
-    # install and import
-    !pip install gdal2tiles
-    import gdal2tiles
+<br>  
 
-    # path
-    in_path = <INPUT PATH>
-    out_path = <OUTPUT PATH>
+```python
+# install and import
+!pip install gdal2tiles
+import gdal2tiles
 
-    # gdal to tiles
-    zoomMax = 21  # set max zoom
-    options = {'zoom': (14, zoomMax), 'resume': True}  # zoom -> 0~22 
-    gdal2tiles.generate_tiles(in_path, out_path, **options)
-    ```
-    <br> 
+# path
+in_path = <INPUT PATH>
+out_path = <OUTPUT PATH>
+
+# gdal to tiles
+zoomMax = 21  # set max zoom
+options = {'zoom': (14, zoomMax), 'resume': True}  # zoom -> 0~22 
+gdal2tiles.generate_tiles(in_path, out_path, **options)
+```
+    
+<br>  
+
     - 위 코드를 실행하면 다음과 같은 구조로 tile이 생성된다.
-    ```python
-    output path
-        |__ 14
-            |__ x
-                |__ y
-                    |__ xxx.tif
-                    |__ xxx.tif
-        |__ 15
-        |__ 16
-        .
-        .
-        |__ 21
-        |__ googlemap.html
-        |__ leaflet.html
-        |__ openlayers.html
-    ```
+```python
+output path
+    |__ 14
+        |__ x
+            |__ y
+                |__ xxx.tif
+                |__ xxx.tif
+    |__ 15
+    |__ 16
+    .
+    .
+    |__ 21
+    |__ googlemap.html
+    |__ leaflet.html
+    |__ openlayers.html
+```
 <br>  
 이제 leaflet이나 openlayer html 파일을 실행하면...! 지도 위에 raster file이 잘 올라가 있는 것을 확인할 수 있다. 참고로 googlemap은 별도로 발급 받은 api key를 option으로 전달해야 사용 가능하다.
 <br>  
 [Openlayers html 실행 화면]
-<iframe src="/images/test/openlayers.html" width="700" height="500" frameborder="0" style="border:0" allowfullscreen></iframe>
-<br>  
+<iframe src="/images/openlayers.html" width="700" height="500" frameborder="0" style="border:0" allowfullscreen></iframe>
 test용으로 zoom은 14-17까지만 tile을 만들었다. zoom은 최대 22까지 가능하지만 많은 이미지를 필요로하고 zoom 단계별 이미지들이 나타내는 범위는 다르지만 크기는 256X256으로 고정돼(조정 가능) 있기 때문에 용량을 꽤 많이 차지하게 된다...(정확히 말하자면 zoom을 한 단계 올릴 때마다 용량은 약 4배 증가)
 <br>  
 <br>  
