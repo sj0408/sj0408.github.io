@@ -4,8 +4,8 @@ title: "Raster 파일 지도에 올리기(1) - Folium"
 tags: [Folium, Image, Raster, Reprojection, Mapbox]
 comments: true
 ---
-# Folium
-<br>
+Folium으로 이용해 raster 파일 지도에 올리기
+---  
 
 1. Folium이란
     - Folium은 leaflet.js를 기반으로 만들어진 Python 라이브러리로 데이터를 시각화하여 leaflet 지도 위에 표출하는 것을 도와준다.
