@@ -11,8 +11,8 @@ gdal을 이용해 zoom별 tile을 생성해서 지도에 올려보자!
 
 [지난 포스트](https://sj0408.github.io/projection-on-map/)에서는 folium 라이브러리를 이용해 reprojection한 raster 파일을 지도 위에 표출해보았다. 하지만 folium에서는 raster의 bound를 설정하기 때문에 polygon 형태로 마스킹된 필지의 경우 필지 이외의 부분들이 검은색으로 나타나는 문제가 생겼다. 배경을 투명하게 만들기 위한 시도도 해봤지만 실패... 그래서 대부분의 지도 서비스에서 하듯이 raster 파일을 zoom별 tile로 잘라 지도 상에 표출해보기로 하였다.
 <br>  
+<img src="/image/tiles.png" width="400">
 <br>  
-
 1. Tiled Web Map(TWM)
 <br>  
     - 이렇게 tile을 이용해 표출되는 지도를 [Tiled Web Map(TWM)](https://en.wikipedia.org/wiki/Tiled_web_map)이라고 하는데 zoom 별로 하나의 큰 지도 파일을 사용하던 [Web Map Service(WMS)](https://en.wikipedia.org/wiki/Web_Map_Service)에 비해 zoom이 된 지역에 해당되는 몇장의 tile을 사용하면 되기 때문에 매우 가볍다는 장점이 있다. 때문에 GoogleMap, OpenStreetMap 등 대부분의 지도 API에서 TWM 방식을 사용한다고 한다.
@@ -67,111 +67,111 @@ gdal을 이용해 zoom별 tile을 생성해서 지도에 올려보자!
 
 [Openlayers html 실행 화면]
 
+<!DOCTYPE html>
+        <html lang="en">
+          <head>
+            <meta charset="utf-8">
+            <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no' />
+            <title>ndvi.tif</title>
 
-    <html lang="en">
-        <head>
-        <meta charset="utf-8">
-        <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no' />
-        <title>ndvi.tif</title>
+            <!-- Leaflet -->
+            <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.5/leaflet.css" />
+            <script src="http://cdn.leafletjs.com/leaflet-0.7.5/leaflet.js"></script>
 
-        <!-- Leaflet -->
-        <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.5/leaflet.css" />
-        <script src="http://cdn.leafletjs.com/leaflet-0.7.5/leaflet.js"></script>
+            <style>
+                body { margin:0; padding:0; }
+                body, table, tr, td, th, div, h1, h2, input { font-family: "Calibri", "Trebuchet MS", "Ubuntu", Serif; font-size: 11pt; }
+                #map { position:absolute; top:0; bottom:0; width:100%; } /* full size */
+                .ctl {
+                    padding: 2px 10px 2px 10px;
+                    background: white;
+                    background: rgba(255,255,255,0.9);
+                    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+                    border-radius: 5px;
+                    text-align: right;
+                }
+                .title {
+                    font-size: 18pt;
+                    font-weight: bold;
+                }
+                .src {
+                    font-size: 10pt;
+                }
 
-        <style>
-            body { margin:0; padding:0; }
-            body, table, tr, td, th, div, h1, h2, input { font-family: "Calibri", "Trebuchet MS", "Ubuntu", Serif; font-size: 11pt; }
-            #map { position:absolute; top:0; bottom:0; width:100%; } /* full size */
-            .ctl {
-                padding: 2px 10px 2px 10px;
-                background: white;
-                background: rgba(255,255,255,0.9);
-                box-shadow: 0 0 15px rgba(0,0,0,0.2);
-                border-radius: 5px;
-                text-align: right;
-            }
-            .title {
-                font-size: 18pt;
-                font-weight: bold;
-            }
-            .src {
-                font-size: 10pt;
-            }
+            </style>
 
-        </style>
+        </head>
+        <body>
 
-    </head>
-    <body>
+        <div id="map"></div>
 
-    <div id="map"></div>
+        <script>
+        /* **** Leaflet **** */
 
-    <script>
-    /* **** Leaflet **** */
+        // Base layers
+        //  .. OpenStreetMap
+        var osm = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'});
 
-    // Base layers
-    //  .. OpenStreetMap
-    var osm = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'});
+        //  .. CartoDB Positron
+        var cartodb = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="http://cartodb.com/attributions">CartoDB</a>'});
 
-    //  .. CartoDB Positron
-    var cartodb = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="http://cartodb.com/attributions">CartoDB</a>'});
+        //  .. OSM Toner
+        var toner = L.tileLayer('http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png', {attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://www.openstreetmap.org/copyright">ODbL</a>.'});
 
-    //  .. OSM Toner
-    var toner = L.tileLayer('http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png', {attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://www.openstreetmap.org/copyright">ODbL</a>.'});
+        //  .. White background
+        var white = L.tileLayer("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAEAAQMAAABmvDolAAAAA1BMVEX///+nxBvIAAAAH0lEQVQYGe3BAQ0AAADCIPunfg43YAAAAAAAAAAA5wIhAAAB9aK9BAAAAABJRU5ErkJggg==");
 
-    //  .. White background
-    var white = L.tileLayer("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAEAAQMAAABmvDolAAAAA1BMVEX///+nxBvIAAAAH0lEQVQYGe3BAQ0AAADCIPunfg43YAAAAAAAAAAA5wIhAAAB9aK9BAAAAABJRU5ErkJggg==");
+        // Overlay layers (TMS)
+        var lyr = L.tileLayer('./{z}/{x}/{y}.png', {tms: true, opacity: 0.7, attribution: ""});
 
-    // Overlay layers (TMS)
-    var lyr = L.tileLayer('./{z}/{x}/{y}.png', {tms: true, opacity: 0.7, attribution: ""});
+        // Map
+        var map = L.map('map', {
+            center: [36.888860899062195, 127.82339311507181],
+            zoom: 16,
+            minZoom: 14,
+            maxZoom: 16,
+            layers: [osm]
+        });
 
-    // Map
-    var map = L.map('map', {
-        center: [36.888860899062195, 127.82339311507181],
-        zoom: 16,
-        minZoom: 14,
-        maxZoom: 16,
-        layers: [osm]
-    });
+        var basemaps = {"OpenStreetMap": osm, "CartoDB Positron": cartodb, "Stamen Toner": toner, "Without background": white}
+        var overlaymaps = {"Layer": lyr}
 
-    var basemaps = {"OpenStreetMap": osm, "CartoDB Positron": cartodb, "Stamen Toner": toner, "Without background": white}
-    var overlaymaps = {"Layer": lyr}
+        // Title
+        var title = L.control();
+        title.onAdd = function(map) {
+            this._div = L.DomUtil.create('div', 'ctl title');
+            this.update();
+            return this._div;
+        };
+        title.update = function(props) {
+            this._div.innerHTML = "ndvi.tif";
+        };
+        title.addTo(map);
 
-    // Title
-    var title = L.control();
-    title.onAdd = function(map) {
-        this._div = L.DomUtil.create('div', 'ctl title');
-        this.update();
-        return this._div;
-    };
-    title.update = function(props) {
-        this._div.innerHTML = "ndvi.tif";
-    };
-    title.addTo(map);
-
-    // Note
-    var src = 'Generated by <a href="http://www.klokan.cz/projects/gdal2tiles/">GDAL2Tiles</a>, Copyright &copy; 2008 <a href="http://www.klokan.cz/">Klokan Petr Pridal</a>,  <a href="http://www.gdal.org/">GDAL</a> &amp; <a href="http://www.osgeo.org/">OSGeo</a> <a href="http://code.google.com/soc/">GSoC</a>';
-    var title = L.control({position: 'bottomleft'});
-    title.onAdd = function(map) {
-        this._div = L.DomUtil.create('div', 'ctl src');
-        this.update();
-        return this._div;
-    };
-    title.update = function(props) {
-        this._div.innerHTML = src;
-    };
-    title.addTo(map);
+        // Note
+        var src = 'Generated by <a href="http://www.klokan.cz/projects/gdal2tiles/">GDAL2Tiles</a>, Copyright &copy; 2008 <a href="http://www.klokan.cz/">Klokan Petr Pridal</a>,  <a href="http://www.gdal.org/">GDAL</a> &amp; <a href="http://www.osgeo.org/">OSGeo</a> <a href="http://code.google.com/soc/">GSoC</a>';
+        var title = L.control({position: 'bottomleft'});
+        title.onAdd = function(map) {
+            this._div = L.DomUtil.create('div', 'ctl src');
+            this.update();
+            return this._div;
+        };
+        title.update = function(props) {
+            this._div.innerHTML = src;
+        };
+        title.addTo(map);
 
 
-    // Add base layers
-    L.control.layers(basemaps, overlaymaps, {collapsed: false}).addTo(map);
+        // Add base layers
+        L.control.layers(basemaps, overlaymaps, {collapsed: false}).addTo(map);
 
-    // Fit to overlay bounds (SW and NE points with (lat, lon))
-    map.fitBounds([[36.88125967695782, 127.83317252619364], [36.896462121166564, 127.81361370395]]);
+        // Fit to overlay bounds (SW and NE points with (lat, lon))
+        map.fitBounds([[36.88125967695782, 127.83317252619364], [36.896462121166564, 127.81361370395]]);
 
-    </script>
+        </script>
 
-    </body>
-    </html>
+        </body>
+        </html>
 
     
 <br>  
