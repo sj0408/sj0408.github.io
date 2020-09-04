@@ -39,26 +39,25 @@ gdal을 이용해 zoom별 tile을 생성해서 지도에 올려보자!
     options = {'zoom': (14, zoomMax), 'resume': True}  # zoom -> 0~22 
     gdal2tiles.generate_tiles(in_path, out_path, **options)
     ```  
-<br>  
+<br>   
 
-        위 코드를 실행하면 다음과 같은 구조로 tile이 생성된다.
-        
-        ```python
-        output path
-            |__ 14
-                |__ x
-                    |__ y
-                        |__ xxx.tif
-                        |__ xxx.tif
-            |__ 15
-            |__ 16
-            .
-            .
-            |__ 21
-            |__ googlemap.html
-            |__ leaflet.html
-            |__ openlayers.html
-        ```
+    위 코드를 실행하면 다음과 같은 구조로 tile이 생성된다.
+    ```python
+    output path
+        |__ 14
+            |__ x
+                |__ y
+                    |__ xxx.tif
+                    |__ xxx.tif
+        |__ 15
+        |__ 16
+        .
+        .
+        |__ 21
+        |__ googlemap.html
+        |__ leaflet.html
+        |__ openlayers.html
+    ```  
 <br>  
 <br>  
 
@@ -99,8 +98,3 @@ test용으로 zoom은 14-17까지만 tile을 만들었다. zoom은 최대 22까�
 
                     os.rename(old_file, new_file)
     ```
-
-
-```python
-
-```
