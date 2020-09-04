@@ -65,7 +65,8 @@ gdal을 이용해 zoom별 tile을 생성해서 지도에 올려보자!
 <br>  
 
 [Openlayers html 실행 화면]
-<iframe src="/images/openlayers/leaflet.html" width="700" height="500" frameborder="0" style="border:0" allowfullscreen></iframe>
+[지도]("/images/openlayers/openlayers.html")
+<br>  
 test용으로 zoom은 14-17까지만 tile을 만들었다. zoom은 최대 22까지 가능하지만 많은 이미지를 필요로하고 zoom 단계별 이미지들이 나타내는 범위는 다르지만 크기는 256X256으로 고정돼(조정 가능) 있기 때문에 용량을 꽤 많이 차지하게 된다...(정확히 말하자면 zoom을 한 단계 올릴 때마다 용량은 약 4배 증가)
 <br>  
 <br>  
