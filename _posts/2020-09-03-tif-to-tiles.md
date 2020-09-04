@@ -4,7 +4,9 @@ title: "Raster 파일 지도에 올리기(2) - gdal2tiles"
 tags: [gdal, Image, Raster, TWM]
 comments: true
 ---
+
 gdal2tiles를 이용해 zoom별 tile을 생성해서 지도에 올려보자!
+
 ---  
 
 [지난 포스트](https://sj0408.github.io/projection-on-map/)에서는 folium 라이브러리를 이용해 reprojection한 raster 파일을 지도 위에 표출해보았다. 하지만 folium에서는 raster의 bound를 설정하기 때문에 polygon 형태로 마스킹된 필지의 경우 필지 이외의 부분들이 검은색으로 나타나는 문제가 생겼다. 배경을 투명하게 만들기 위한 시도도 해봤지만 실패... 그래서 대부분의 지도 서비스에서 하듯이 raster 파일을 zoom별 tile로 잘라 지도 상에 표출해보기로 하였다.
