@@ -22,45 +22,49 @@ gdal을 이용해 zoom별 tile을 생성해서 지도에 올려보자!
     - gdal2tiles[[gdal documenation](https://gdal.org/programs/gdal2tiles.html)], [[PYPI gdal documentation](https://pypi.org/project/gdal2tiles/)] 모듈을 이용하면 몇 줄의 코드로 raster file을 tile로 자를 수 있을뿐더러 동시에 GoogleMap, Leaflet, Openlayer 세 가지 지도 API 기반의 html 파일을 자동으로 생성해주어 매우 유용하다. 
 <br>  
 
-```python
-# install and import
-!pip install gdal2tiles
-import gdal2tiles
+    ```python
+    # install and import
+    !pip install gdal2tiles
+    import gdal2tiles
 
-# path
-in_path = <INPUT PATH>
-out_path = <OUTPUT PATH>
+    # path
+    in_path = <INPUT PATH>
+    out_path = <OUTPUT PATH>
 
-# gdal to tiles
-zoomMax = 21  # set max zoom
-options = {'zoom': (14, zoomMax), 'resume': True}  # zoom -> 0~22 
-gdal2tiles.generate_tiles(in_path, out_path, **options)
-```
+    # gdal to tiles
+    zoomMax = 21  # set max zoom
+    options = {'zoom': (14, zoomMax), 'resume': True}  # zoom -> 0~22 
+    gdal2tiles.generate_tiles(in_path, out_path, **options)
+    ```
     
 <br>  
 
     - 위 코드를 실행하면 다음과 같은 구조로 tile이 생성된다.
-```python
-output path
-    |__ 14
-        |__ x
-            |__ y
-                |__ xxx.tif
-                |__ xxx.tif
-    |__ 15
-    |__ 16
-    .
-    .
-    |__ 21
-    |__ googlemap.html
-    |__ leaflet.html
-    |__ openlayers.html
-```
+
+        ```python
+        output path
+            |__ 14
+                |__ x
+                    |__ y
+                        |__ xxx.tif
+                        |__ xxx.tif
+            |__ 15
+            |__ 16
+            .
+            .
+            |__ 21
+            |__ googlemap.html
+            |__ leaflet.html
+            |__ openlayers.html
+        ```
+
 <br>  
+
 이제 leaflet이나 openlayer html 파일을 실행하면...! 지도 위에 raster file이 잘 올라가 있는 것을 확인할 수 있다. 참고로 googlemap은 별도로 발급 받은 api key를 option으로 전달해야 사용 가능하다.
 <br>  
+
 [Openlayers html 실행 화면]
-<iframe src="/images/openlayers.html" width="700" height="500" frameborder="0" style="border:0" allowfullscreen></iframe>
+<iframe src="/images/openlayers/openlayers.html" width="700" height="500" frameborder="0" style="border:0"></iframe>
 test용으로 zoom은 14-17까지만 tile을 만들었다. zoom은 최대 22까지 가능하지만 많은 이미지를 필요로하고 zoom 단계별 이미지들이 나타내는 범위는 다르지만 크기는 256X256으로 고정돼(조정 가능) 있기 때문에 용량을 꽤 많이 차지하게 된다...(정확히 말하자면 zoom을 한 단계 올릴 때마다 용량은 약 4배 증가)
 <br>  
 <br>  
