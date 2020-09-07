@@ -54,20 +54,20 @@ folium_stamen
 <br>  
     - Import  
 
-    ```python
-    from rasterio.warp import calculate_default_transform, reproject, Resampling
-    ```
+```python
+from rasterio.warp import calculate_default_transform, reproject, Resampling
+```
 <br>  
 
     
     - Reprojection
-        [이 분의 말](https://stackoverflow.com/questions/57376512/which-projection-is-mapbox-using)에 따르면 mapbox의 맵핑 라이브러리는 EPSG:3857을 사용하지만 마커나 GeoJSON layer와 같은 정보를 지도에 올리기 위해서는 EPSG:4326 좌표계를 사용해야 된다고 함.
-        ```python
-        input_path = <input_path> # 맵핑하고싶은 raster data 경로
-        out_path = <out_path> # reprojection된 raster data 저장 경로
-        # Destination Coordinate Reference System - mapbox에서 사용하는 좌표계: epsg:4326
-        dst_crs = 'epsg:4326' 
-        ```
+    [이 분의 말](https://stackoverflow.com/questions/57376512/which-projection-is-mapbox-using)에 따르면 mapbox의 맵핑 라이브러리는 EPSG:3857을 사용하지만 마커나 GeoJSON layer와 같은 정보를 지도에 올리기 위해서는 EPSG:4326 좌표계를 사용해야 된다고 함.
+    ```python
+    input_path = <input_path> # 맵핑하고싶은 raster data 경로
+    out_path = <out_path> # reprojection된 raster data 저장 경로
+    # Destination Coordinate Reference System - mapbox에서 사용하는 좌표계: epsg:4326
+    dst_crs = 'epsg:4326' 
+    ```
 <br>  
 
         [rasterio.warp](https://rasterio.readthedocs.io/en/latest/api/rasterio.warp.html)의 <span style='background :yellow' > calculate_default_transform </span> 모듈은 reprojection에 필요한 output의 transformation matrix과 dimension을 계산해준다.
@@ -139,7 +139,7 @@ folium_stamen
 
 다음과 같이 raster 파일이 맴핑된 것을 확인할 수 있다.
 
-<img src="/images/folium_with_layer_soybean" width="700">
+<img src="/images/folium_with_layer_soybean.png" width="700">
 
 <br>    
 
