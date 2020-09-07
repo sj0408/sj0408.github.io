@@ -10,6 +10,7 @@ Folium으로 이용해 raster 파일 지도에 올리기
 ---  
 
 1. Folium이란
+<br>  
     - Folium은 leaflet.js를 기반으로 만들어진 Python 라이브러리로 데이터를 시각화하여 leaflet 지도 위에 표출하는 것을 도와준다.
     - OpenStreetMap, Mapbox, Stamen 등 다양한 built-in tileset이 있으며, Mapbox 혹은 Cloudmade API를 이용한 custom tileset도 이용할 수 있다.
     - Folium의 자세한 내용은 [Folium Documentation](https://python-visualization.github.io/folium/)에서 확인할 수 있다.
@@ -26,7 +27,7 @@ Folium으로 이용해 raster 파일 지도에 올리기
 # import
 import folium
 ```
-<br>
+<br>  
 
 - location: [위도, 경도]
 - zoom_start: 기본 확대값(높을수록 확대), int
@@ -47,15 +48,16 @@ folium_stamen
 <br>
 
 2. Folium 위에 Raster 맵핑하기
-
+<br>  
 지도 상에 raster 파일을 맵핑은 간단하다. Reprojection 과정을 거친 후 raster layer를 지도 위에 올리면 끝!
-<br>
+
+<br>  
     - Import  
 
     ```python
     from rasterio.warp import calculate_default_transform, reproject, Resampling
     ```
-<br>
+<br>  
 
     
     - Reprojection
@@ -66,7 +68,7 @@ folium_stamen
         # Destination Coordinate Reference System - mapbox에서 사용하는 좌표계: epsg:4326
         dst_crs = 'epsg:4326' 
         ```
-<br>
+<br>  
 
         [rasterio.warp](https://rasterio.readthedocs.io/en/latest/api/rasterio.warp.html)의 <span style='background :yellow' > calculate_default_transform </span> 모듈은 reprojection에 필요한 output의 transformation matrix과 dimension을 계산해준다.
         ```python
@@ -74,7 +76,7 @@ folium_stamen
         with rasterio.open(input_path) as src:
                 _transform, width, height = calculate_default_transform(src.crs, dst_crs, src.width, src.height, *src.bounds)
         ```      
-<br>
+<br>  
 
         위에서 얻은 정보들을 이용해 raster의 meta 정보를 업데이트 한다 
         ```python
@@ -86,7 +88,7 @@ folium_stamen
                     'height': height
                 })
         ```     
-<br>
+<br>  
 
         output될 raster의 정보를 band 별로 입력해준다. 본 연구에 활용된 raster는 b,g,r와 transparency까지 총 4개의 band로 구성돼 있다.
             
@@ -101,7 +103,7 @@ folium_stamen
                             dst_transform=_transform,
                             dst_crs=dst_crs)  
         ```
-<br>
+<br>  
 
     
     - Mapping            
@@ -118,7 +120,7 @@ folium_stamen
             for i in range(4):
                 img_n[:,:,i] = img[i,:,:]
         ```
-<br>
+<br>  
 
         마지막으로 folium map에 custom mapbox를 이용해 raster layer를 추가하는 과정을 거친다. custom mapbox를 쓰기 위해서는 mapbox api token이 필요하며 tiles 파라미터에 token이 포함된 tile url을 넣어주어야함. token 생성 방법은 [이곳](https://docs.mapbox.com/help/tutorials/get-started-tokens-api/)을 참고.
         
@@ -133,16 +135,17 @@ folium_stamen
         # add raster layer
         m.add_child(folium.raster_layers.ImageOverlay(img, opacity=1, bounds=mask_bounds))        
         ```
-<br>  
+<br>    
 
 다음과 같이 raster 파일이 맴핑된 것을 확인할 수 있다.
 
-<iframe src="/images/folium_with_layer_soybean.html" width="700" height="500" frameborder="0" style="border:0" allowfullscreen></iframe>
-<br>  
+<img src="/images/folium_with_layer_soybean" width="700">
+
+<br>    
 
 
 3. Folium 위에 polygon 그리기 (shapely)
-
+<br>  
 추가적으로 raster 파일 없이 shape file의 좌표만으로 원하는 지역에 표시를 하고 싶다면 <span style='background :yellow' > shapely </span> 모듈을 활용하여 간단하게 folium 위에 polygon을 그릴 수 있다.
 
 ```python
