@@ -74,7 +74,10 @@ data = rasterio.open('<GEO TIFF FILE PATH>')
 # shape file의 좌표계를 raster data의 좌표계로 변환해 두 파일의 좌표계를 일치시킴
 geo = geo.to_crs(crs=data.crs.data)
 ```
-<br>
+ndvi tif 파일
+<img src="/images/ndvi.png" width="400">
+
+<br>  
 <font size="5"> 3. 마스킹 좌표 설정 / 마스킹된 Raster의 meta data 생성 </font>
 
 - 마스킹을 위해서는 마스킹될 필지의 좌표정보가 필요하다. geopandas로 읽어들인 shape 파일을 json 형태로 변환, 'features' dict 내의 'geometry' dict에 위치한 좌표 정보를 list 로 저장한다.
@@ -135,8 +138,8 @@ epsg2proj =  CRS.from_epsg(epsg_code).to_proj4()
 ```
 <br>
 <font size="5"> 4. 마스킹 </font>
-- shape 파일을 pandas dataframe으로 변환한 변수 <span style='background :gray' > geo </span>의 행은 각 필지에 대한 정보를 가지고 있으며 <span style='background :gray' > FMAP_INNB </span>  은 각 필지의 고유한 코드이다.
-- 대상 필지 코드 리스트 <span style='background :gray' > soybean </span>에 포함된 행에 대해서만 마스킹을 수행한다.
+- shape 파일을 pandas dataframe으로 변환한 변수 <span style='background :gyelloway' > geo </span>의 행은 각 필지에 대한 정보를 가지고 있으며 <span style='background :yellow' > FMAP_INNB </span>  은 각 필지의 고유한 코드이다.
+- 대상 필지 코드 리스트 <span style='background :yellow' > soybean </span>에 포함된 행에 대해서만 마스킹을 수행한다.
 - [rasterio.mask](https://rasterio.readthedocs.io/en/latest/api/rasterio.mask.html)를 이용해 마스킹
 
 
@@ -172,14 +175,21 @@ for row in geo.iterrows(): # iter rows of geo
         except ValueError:
             pass
 ```
-<br>
-<img src="/images/masked_1.png" width="400">
-<img src="/images/masked_2.png" width="400">
-<img src="/images/masked_3.png" width="400">
+<br>  
+3개의 필지에 대해서 마스킹
+<br>  
+필지_1
+<img src="/images/masked_1.png" width="200">
+<br>  
+필지_2
+<img src="/images/masked_2.png" width="200">
+<br>  
+필지_3
+<img src="/images/masked_3.png" width="200">
 <br>
 
-- 각각의 필지가 아닌 다수 혹은 전체 필지를 마스킹하고 싶다면 for문을 사용하지 않고 <span style='background :gray' > coords </span>에 마스킹하려는 모든 필지에 대한 좌표 정보를 추가하면 된다.
-- 이때 <span style='background :gray' > mask </span>  모듈의 crop 파라미터를 True로 설정할 경우 선택한 필지를 나타낼 수 있는 최소한의 크기로 raster를 잘라내고 False로 설정할 경우 원래 raster 크기 그대로 마스크된 raster를 출력한다. 
+- 각각의 필지가 아닌 다수 혹은 전체 필지를 마스킹하고 싶다면 for문을 사용하지 않고 <span style='background :yellow' > coords </span>에 마스킹하려는 모든 필지에 대한 좌표 정보를 추가하면 된다.
+- 이때 <span style='background :yellow' > mask </span>  모듈의 crop 파라미터를 True로 설정할 경우 선택한 필지를 나타낼 수 있는 최소한의 크기로 raster를 잘라내고 False로 설정할 경우 원래 raster 크기 그대로 마스크된 raster를 출력한다. 
 
 ```python
 # get coordinates of target areas only
