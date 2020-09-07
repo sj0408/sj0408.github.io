@@ -12,15 +12,13 @@ comments: True
 # Raster
 
 <font size="5"> 1. What is Raster </font>
-- Raster data는 grid 상에서 같은 크기의 cell들에 저장된 값들로 지도 상에 하나의 픽셀로 표현되며 각 픽셀은 공간정보를 포함한다.  
+Raster data는 grid 상에서 같은 크기의 cell들에 저장된 값들로 지도 상에 하나의 픽셀로 표현되며 각 픽셀은 공간정보를 포함한다.  
 
 <img src="https://www.earthdatascience.org/images/earth-analytics/raster-data/raster-concept.png" width="400">
 
 <br>
 <font size="5"> 2. Raster in Python </font>
-- Python에서 Raster data를 다룰 수 있는 오픈 소스 패키지는 크게 [Python GDAL](https://pypi.org/project/GDAL/)과 [Rasterio](https://pypi.org/project/rasterio/)가 있다.
-- **GDAL**은 C++을 베이스로 만들어져 풍부한 기능을 제공하지만 코드가 다소 복잡한 경향이 있다.
-- **Rasterio**는 Pythonic한 인터페이스를 가지고 있으며 코드가 간단하고 가독성이 좋다.
+Python에서 Raster data를 다룰 수 있는 오픈 소스 패키지는 크게 [Python GDAL](https://pypi.org/project/GDAL/)과 [Rasterio](https://pypi.org/project/rasterio/)가 있다. **GDAL**은 C++을 베이스로 만들어져 풍부한 기능을 제공하지만 코드가 다소 복잡한 경향이 있으며 **Rasterio**는 Pythonic한 인터페이스를 가지고 있으며 코드가 간단하고 가독성이 좋다.
 
 <br>
 <font size="5"> 3. Raster and TIFF, GeoTIFF </font>
@@ -44,7 +42,7 @@ comments: True
 
 # Masking Raster with Shape File
 
-- rasterio로 raster file을 읽고 shape file의 좌표정보를 이용해 분석에 필요한 필지를 마스킹한다.
+rasterio로 raster file을 읽고 shape file의 좌표정보를 이용해 분석에 필요한 필지를 마스킹한다.
 
 <br>
 <font size="5"> 1. Import </font>
@@ -80,7 +78,7 @@ ndvi tif 파일
 <br>  
 <font size="5"> 3. 마스킹 좌표 설정 / 마스킹된 Raster의 meta data 생성 </font>
 
-- 마스킹을 위해서는 마스킹될 필지의 좌표정보가 필요하다. geopandas로 읽어들인 shape 파일을 json 형태로 변환, 'features' dict 내의 'geometry' dict에 위치한 좌표 정보를 list 로 저장한다.
+마스킹을 위해서는 마스킹될 필지의 좌표정보가 필요하다. geopandas로 읽어들인 shape 파일을 json 형태로 변환, 'features' dict 내의 'geometry' dict에 위치한 좌표 정보를 list 로 저장한다.
 
 ```python
 json.loads(geo.to_json())
