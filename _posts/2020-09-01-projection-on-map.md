@@ -151,7 +151,7 @@ import geopandas as gpd
 from shapely.geometry import Polygon
 
 # path for shape file
-shp_path = "C://Users//User//Desktop//soybean_goesan//map//goesan_2018//buljeong//buljeong.shp"
+shp_path = "<shape file path>"
 # read .shp with geopandas
 geo = gpd.read_file(shp_path)
 # get coordinates for target area
