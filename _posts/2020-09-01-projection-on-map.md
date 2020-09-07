@@ -9,7 +9,7 @@ Folium으로 이용해 raster 파일 지도에 올리기
 
 ---  
 
-1. Folium이란
+# Folium이란
 <br>  
     - Folium은 leaflet.js를 기반으로 만들어진 Python 라이브러리로 데이터를 시각화하여 leaflet 지도 위에 표출하는 것을 도와준다.
     - OpenStreetMap, Mapbox, Stamen 등 다양한 built-in tileset이 있으며, Mapbox 혹은 Cloudmade API를 이용한 custom tileset도 이용할 수 있다.
@@ -46,7 +46,7 @@ folium_stamen
 <br>
 
 
-2. Folium 위에 Raster 맵핑하기
+# Folium 위에 Raster 맵핑하기
 
 지도 상에 raster 파일을 맵핑은 간단하다. Reprojection 과정을 거친 후 raster layer를 지도 위에 올리면 끝!
 
@@ -57,7 +57,7 @@ from rasterio.warp import calculate_default_transform, reproject, Resampling
 ```
 <br>  
 
-- Reprojection
+- Reprojection  
     [이 분의 말](https://stackoverflow.com/questions/57376512/which-projection-is-mapbox-using)에 따르면 mapbox의 맵핑 라이브러리는 EPSG:3857을 사용하지만 마커나 GeoJSON layer와 같은 정보를 지도에 올리기 위해서는 EPSG:4326 좌표계를 사용해야 된다고 함.
 
     ```python
@@ -142,7 +142,7 @@ from rasterio.warp import calculate_default_transform, reproject, Resampling
 <br>    
 
 
-3. Folium 위에 polygon 그리기 (shapely)
+# Folium 위에 polygon 그리기 (shapely)
 <br>  
 추가적으로 raster 파일 없이 shape file의 좌표만으로 원하는 지역에 표시를 하고 싶다면 <span style='background :yellow' > shapely </span> 모듈을 활용하여 간단하게 folium 위에 polygon을 그릴 수 있다.
 
