@@ -74,7 +74,7 @@ test용으로 zoom은 14-17까지만 tile을 만들었다. zoom은 최대 22까�
 
 # y 좌표 변환
 <br>  
-위에서 언급했듯이 tile 좌표계에는 Google형식과 TMS형식이 있는데 gdal2tiles의 default는 Google형식에 맞춰져 있다.따라서 Google 형식을 따르도록 돼 있는 Google Map에서는(혹시 Google Map API를 사용하게 된다면) tile을 확인할 수 없다. tile을 표출하기 위해서는 y값에 해당하는 파일명을 Google형식에 맞춰 변환해야한다. 다행히도 변환 코드는 [Maptiler](https://www.maptiler.com/google-maps-coordinates-tile-bounds-projection/)의 <span style='background :yellow' > GlobalMercator </span> 모듈에 있다. 
+위에서 언급했듯이 tile 좌표계에는 Google형식과 TMS형식이 있는데 gdal2tiles의 default는 Google형식에 맞춰져 있다.따라서 TMS 형식을 따르도록 돼 있는 Google Map에서는(혹시 Google Map API를 사용하게 된다면) tile을 확인할 수 없다. tile을 표출하기 위해서는 y값에 해당하는 파일명을 Google형식에 맞춰 변환해야한다. 다행히도 변환 코드는 [Maptiler](https://www.maptiler.com/google-maps-coordinates-tile-bounds-projection/)의 <span style='background :yellow' > GlobalMercator </span> 모듈에 있다. 
 
 ```python
 def GoogleTile(tx, ty, zoom):
